@@ -1,0 +1,36 @@
+{
+    "houses": [
+        {
+            "address": "5314 96th St\nCorona NY 11368",
+            "price": "850000",
+            "location": {
+                "lat": 40.739582,
+                "lng": -73.86631499999999
+            },
+            "notes": "Asked for cash"
+        },
+        {
+            "address": "9417 52nd Ave\nElmhurst NY 11373",
+            "price": "850000",
+            "location": {
+                "lat": 40.740217,
+                "lng": -73.86836
+            },
+            "notes": "Really small"
+        },
+        {
+            "address": "4234 Gleane St\nElmhust NY 11373",
+            "price": "888000",
+            "location": {
+                "lat": 40.744167,
+                "lng": -73.87524400000001
+            },
+            "notes": ""
+        },
+        {
+            "address": "5307 Junction Blvd, Corona NY 11368",
+            "price": "7690000",
+            "notes": ""
+        }
+    ]
+}
