@@ -52,13 +52,16 @@ function HouseMap(data)
     // Draw targets
     for (i = 0; i < this._targetLocations.length; i++)
     {
-        new google.maps.Circle({
-            center: this._targetLocations[i],
-            radius: 10,
-            fillOpacity: 0,
-            strokeColor: '#333',
-            strokeOpacity: 0.5,
-            strokeWeight: 2,
+        new google.maps.Marker({
+            position: this._targetLocations[i],
+            icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 4,
+                fillOpacity: 0,
+                strokeOpacity: 0.5,
+                strokeWeight: 3
+            },
+            draggable: false,
             map: this._map
         });
     }
@@ -103,17 +106,24 @@ HouseMap.prototype._createMarker = function(house)
         title: house.title
     });
 
-    if (house.notes)
-    {
-        var oElem = $(document.createDocumentFragment()).appendNewChild('DIV');
-        oElem.text(house.notes);
-        var info = new google.maps.InfoWindow({
-            content: '<div>' + house.notes + '</div>'
-        });
-        marker.addListener('click', createCallback(this, function() {
+    var desc = house.address.replace(', ', '\n').replace(',', '\n');
+    desc += '\n\n' + house.notes + '\n';
+    for (var target in house.distance)
+        desc += target + ': ' + house.distance[target].distance.text + ' (' + house.distance[target].duration.text + ')\n';
+
+    var oElem = $(document.createDocumentFragment()).appendNewChild('DIV');
+    oElem.text(desc);
+    oElem.css({'white-space': 'pre'});
+    var info = new google.maps.InfoWindow({
+        content: oElem[0]
+    });
+    marker.addListener('click', createCallback(this, function() {
+        if (marker.isOpen)
+            info.close();
+        else
             info.open(this._map, marker);
-        }));
-    }
+        marker.isOpen = !!!marker.isOpen;
+    }));
 };
 
 HouseMap.prototype._displayUpdatedJson = function()
