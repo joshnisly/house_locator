@@ -31,9 +31,12 @@
 
     <script src="{{ url_for('static', filename='jquery-3.2.1.min.js') }}"></script>
     <script src="{{ url_for('static', filename='globals.js') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBt4wAZo5joBOJ_3XWkhYsy9RyXRcNqXc8&"></script>
+    <script src="{{ url_for('static', filename='maplabel.js') }}"></script>
     <script src="{{ url_for('static', filename='map.js') }}"></script>
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBt4wAZo5joBOJ_3XWkhYsy9RyXRcNqXc8&callback=initMap"></script>
+    <script>
+        initMap();
+    </script>
 
     </body>
 </html>

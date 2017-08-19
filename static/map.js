@@ -58,7 +58,7 @@ function HouseMap(data)
                 path: google.maps.SymbolPath.CIRCLE,
                 scale: 4,
                 fillOpacity: 0,
-                strokeOpacity: 0.5,
+                strokeOpacity: 0.7,
                 strokeWeight: 3
             },
             draggable: false,
@@ -103,11 +103,13 @@ HouseMap.prototype._createMarker = function(house)
     var marker = new google.maps.Marker({
         position: house.location,
         map: this._map,
-        title: house.title
+        title: house.title,
+        icon: house.forSale ? '/static/marker_green.png' : null
     });
 
     var desc = house.address.replace(', ', '\n').replace(',', '\n');
     desc += '\n\n' + house.notes + '\n';
+    desc += 'Price: $' + house.price + 'K\n';
     for (var target in house.distance)
         desc += target + ': ' + house.distance[target].distance.text + ' (' + house.distance[target].duration.text + ')\n';
 
@@ -124,13 +126,20 @@ HouseMap.prototype._createMarker = function(house)
             info.open(this._map, marker);
         marker.isOpen = !!!marker.isOpen;
     }));
+    //marker.addListener('dblclick', createCallback(this, function() { window.alert('Hey!'); }));
+
+    var mapLabel = new MapLabel({
+      text: house.price,
+      position: new google.maps.LatLng(house.location.lat, house.location.lng),
+      map: this._map,
+      fontSize: 11,
+      align: 'center'
+    });
 };
 
 HouseMap.prototype._displayUpdatedJson = function()
 {
     var json = window.JSON.stringify(this._data, null, '    ');
-    // var elem = $(this._mapWrapper[0].parentNode).appendNewChild('DIV', 'JsonDisplay').text(json);
-    // window.getSelection().selectAllChildren(elem[0]);
     $.ajax({
         'url': '/update/',
         'data': json,

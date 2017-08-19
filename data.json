@@ -1,180 +1,195 @@
 {
-    "targets": [
-        {
-            "location": {
-                "lat": 40.739073,
-                "lng": -73.87282
-            },
-            "name": "Church"
-        },
-        {
-            "location": {
-                "lat": 40.742344,
-                "lng": -73.870364
-            },
-            "name": "MTC"
-        }
-    ],
     "houses": [
         {
             "distance": {
-                "Church": {
-                    "duration": {
-                        "value": 505,
-                        "text": "8 mins"
-                    },
-                    "distance": {
-                        "value": 663,
-                        "text": "0.4 mi"
-                    },
-                    "status": "OK"
-                },
                 "MTC": {
                     "duration": {
-                        "value": 465,
-                        "text": "8 mins"
-                    },
+                        "text": "8 mins", 
+                        "value": 465
+                    }, 
                     "distance": {
-                        "value": 604,
-                        "text": "0.4 mi"
-                    },
+                        "text": "0.4 mi", 
+                        "value": 604
+                    }, 
+                    "status": "OK"
+                }, 
+                "Church": {
+                    "duration": {
+                        "text": "8 mins", 
+                        "value": 505
+                    }, 
+                    "distance": {
+                        "text": "0.4 mi", 
+                        "value": 663
+                    }, 
                     "status": "OK"
                 }
-            },
-            "notes": "Asked for cash",
-            "title": "5314 96th St",
+            }, 
+            "title": "5314 96th St", 
+            "price": "850", 
             "location": {
-                "lat": 40.739582,
+                "lat": 40.739582, 
                 "lng": -73.86631499999999
-            },
-            "address": "5314 96th St\nCorona NY 11368",
-            "price": "850000",
-            "forSale": true
-        },
+            }, 
+            "address": "5314 96th St\nCorona NY 11368", 
+            "forSale": true, 
+            "notes": "Asked for cash"
+        }, 
         {
             "distance": {
-                "Church": {
-                    "duration": {
-                        "value": 299,
-                        "text": "5 mins"
-                    },
-                    "distance": {
-                        "value": 396,
-                        "text": "0.2 mi"
-                    },
-                    "status": "OK"
-                },
                 "MTC": {
                     "duration": {
-                        "value": 291,
-                        "text": "5 mins"
-                    },
+                        "text": "5 mins", 
+                        "value": 291
+                    }, 
                     "distance": {
-                        "value": 383,
-                        "text": "0.2 mi"
-                    },
+                        "text": "0.2 mi", 
+                        "value": 383
+                    }, 
+                    "status": "OK"
+                }, 
+                "Church": {
+                    "duration": {
+                        "text": "5 mins", 
+                        "value": 299
+                    }, 
+                    "distance": {
+                        "text": "0.2 mi", 
+                        "value": 396
+                    }, 
                     "status": "OK"
                 }
-            },
-            "notes": "Really small",
-            "title": "9417 52nd Ave",
+            }, 
+            "title": "9417 52nd Ave", 
+            "price": "850", 
             "location": {
-                "lat": 40.740217,
+                "lat": 40.740217, 
                 "lng": -73.86836
-            },
-            "address": "9417 52nd Ave\nElmhurst NY 11373",
-            "price": "850000",
-            "forSale": true
-        },
+            }, 
+            "address": "9417 52nd Ave\nElmhurst NY 11373", 
+            "forSale": true, 
+            "notes": "Really small"
+        }, 
         {
             "distance": {
-                "Church": {
-                    "duration": {
-                        "value": 648,
-                        "text": "11 mins"
-                    },
-                    "distance": {
-                        "value": 874,
-                        "text": "0.5 mi"
-                    },
-                    "status": "OK"
-                },
                 "MTC": {
                     "duration": {
-                        "value": 426,
-                        "text": "7 mins"
-                    },
+                        "text": "7 mins", 
+                        "value": 426
+                    }, 
                     "distance": {
-                        "value": 574,
-                        "text": "0.4 mi"
-                    },
+                        "text": "0.4 mi", 
+                        "value": 574
+                    }, 
+                    "status": "OK"
+                }, 
+                "Church": {
+                    "duration": {
+                        "text": "11 mins", 
+                        "value": 648
+                    }, 
+                    "distance": {
+                        "text": "0.5 mi", 
+                        "value": 874
+                    }, 
                     "status": "OK"
                 }
-            },
-            "notes": "",
-            "title": "4234 Gleane St",
+            }, 
+            "title": "4234 Gleane St", 
+            "price": "888", 
             "location": {
-                "lat": 40.744167,
+                "lat": 40.744167, 
                 "lng": -73.87524400000001
-            },
-            "address": "4234 Gleane St\nElmhust NY 11373",
-            "price": "888000",
-            "forSale": true
-        },
+            }, 
+            "address": "4234 Gleane St\nElmhust NY 11373", 
+            "forSale": true, 
+            "notes": ""
+        }, 
         {
             "distance": {
-                "Church": {
-                    "duration": {
-                        "value": 432,
-                        "text": "7 mins"
-                    },
-                    "distance": {
-                        "value": 563,
-                        "text": "0.3 mi"
-                    },
-                    "status": "OK"
-                },
                 "MTC": {
                     "duration": {
-                        "value": 414,
-                        "text": "7 mins"
-                    },
+                        "text": "7 mins", 
+                        "value": 414
+                    }, 
                     "distance": {
-                        "value": 534,
-                        "text": "0.3 mi"
-                    },
+                        "text": "0.3 mi", 
+                        "value": 534
+                    }, 
+                    "status": "OK"
+                }, 
+                "Church": {
+                    "duration": {
+                        "text": "7 mins", 
+                        "value": 432
+                    }, 
+                    "distance": {
+                        "text": "0.3 mi", 
+                        "value": 563
+                    }, 
                     "status": "OK"
                 }
-            },
-            "notes": "",
-            "title": "5307 Junction Blvd",
+            }, 
+            "title": "5307 Junction Blvd", 
+            "price": "769",
             "location": {
-                "lat": 40.7396529,
+                "lat": 40.7396529, 
                 "lng": -73.86672199999998
-            },
-            "address": "5307 Junction Blvd, Corona NY 11368",
-            "price": "7690000",
-            "forSale": true
-        },
+            }, 
+            "address": "5307 Junction Blvd, Corona NY 11368", 
+            "forSale": true, 
+            "notes": ""
+        }, 
         {
-            "address": "90-02 55th Ave,  Elmhurst NY 11373",
-            "notes": "Never saw this on the market. Great house!",
+            "distance": {
+                "MTC": {
+                    "duration": {
+                        "text": "13 mins", 
+                        "value": 772
+                    }, 
+                    "distance": {
+                        "text": "0.6 mi", 
+                        "value": 1022
+                    }, 
+                    "status": "OK"
+                }, 
+                "Church": {
+                    "duration": {
+                        "text": "5 mins", 
+                        "value": 279
+                    }, 
+                    "distance": {
+                        "text": "0.2 mi", 
+                        "value": 357
+                    }, 
+                    "status": "OK"
+                }
+            }, 
+            "title": "90-02 55th Ave", 
+            "price": "900",
             "location": {
-                "lat": 40.736548,
+                "lat": 40.736548, 
                 "lng": -73.87280799999996
-            },
-            "price": "9000000",
-            "forSale": true
-        },
+            }, 
+            "address": "90-02 55th Ave,  Elmhurst NY 11373", 
+            "forSale": false, 
+            "notes": "Never saw this on the market. Great house!"
+        }
+    ], 
+    "targets": [
         {
-            "address": "90-02 55th Ave,  Elmhurst NY 11373",
-            "notes": "Never saw this on the market. Great house!",
             "location": {
-                "lat": 40.736548,
-                "lng": -73.87280799999996
-            },
-            "price": "9000000",
-            "forSale": false
+                "lat": 40.739073, 
+                "lng": -73.87282
+            }, 
+            "name": "Church"
+        }, 
+        {
+            "location": {
+                "lat": 40.742344, 
+                "lng": -73.870364
+            }, 
+            "name": "MTC"
         }
     ]
 }
