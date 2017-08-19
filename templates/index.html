@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>House Tracker</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', filename='globals.css') }}"/>
+    </head>
+    <body>
+        <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}"/>
+
+        <div id="MainMap" xdata="{{ data}}"></div>
+        <div id="AddNewWrapper">
+            <form id="AddNewForm">
+                <table>
+                    <tr>
+                        <td>Address</td>
+                        <td><input id="NewAddressInput" type="text"/></td>
+                    </tr>
+                    <tr>
+                        <td>Price</td>
+                        <td><input id="NewPriceInput" type="text"/></td>
+                    </tr>
+                    <tr>
+                        <td>Notes</td>
+                        <td><input id="NewNotesInput" type="text"/></td>
+                    </tr>
+                </table>
+                <button id="NewButton" class="btn btn-small btn-primary">Add</button>
+            </form>
+        </div>
+    </body>
+
+    <script src="{{ url_for('static', filename='jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='globals.js') }}"></script>
+    <script src="{{ url_for('static', filename='map.js') }}"></script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBt4wAZo5joBOJ_3XWkhYsy9RyXRcNqXc8&callback=initMap"></script>
+
+    </body>
+</html>
