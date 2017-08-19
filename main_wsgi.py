@@ -17,7 +17,6 @@ def index():
 
 @app.route('/update/', methods=['POST'])
 def update():
-    print(flask.request.json)
     with open(_get_data_path(), 'w') as output:
         output.write(json.dumps(flask.request.json, indent=4))
     return '{}'

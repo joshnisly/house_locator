@@ -1,36 +1,156 @@
 {
     "houses": [
         {
-            "address": "5314 96th St\nCorona NY 11368",
+            "title": "5314 96th St",
             "price": "850000",
-            "location": {
-                "lat": 40.739582,
-                "lng": -73.86631499999999
+            "distance": {
+                "MTC": {
+                    "duration": {
+                        "text": "8 mins",
+                        "value": 465
+                    },
+                    "distance": {
+                        "text": "0.4 mi",
+                        "value": 604
+                    },
+                    "status": "OK"
+                },
+                "Church": {
+                    "duration": {
+                        "text": "8 mins",
+                        "value": 505
+                    },
+                    "distance": {
+                        "text": "0.4 mi",
+                        "value": 663
+                    },
+                    "status": "OK"
+                }
             },
-            "notes": "Asked for cash"
+            "notes": "Asked for cash",
+            "location": {
+                "lng": -73.86631499999999,
+                "lat": 40.739582
+            },
+            "address": "5314 96th St\nCorona NY 11368"
         },
         {
-            "address": "9417 52nd Ave\nElmhurst NY 11373",
+            "title": "9417 52nd Ave",
             "price": "850000",
-            "location": {
-                "lat": 40.740217,
-                "lng": -73.86836
+            "distance": {
+                "MTC": {
+                    "duration": {
+                        "text": "5 mins",
+                        "value": 291
+                    },
+                    "distance": {
+                        "text": "0.2 mi",
+                        "value": 383
+                    },
+                    "status": "OK"
+                },
+                "Church": {
+                    "duration": {
+                        "text": "5 mins",
+                        "value": 299
+                    },
+                    "distance": {
+                        "text": "0.2 mi",
+                        "value": 396
+                    },
+                    "status": "OK"
+                }
             },
-            "notes": "Really small"
+            "notes": "Really small",
+            "location": {
+                "lng": -73.86836,
+                "lat": 40.740217
+            },
+            "address": "9417 52nd Ave\nElmhurst NY 11373"
         },
         {
-            "address": "4234 Gleane St\nElmhust NY 11373",
+            "title": "4234 Gleane St",
             "price": "888000",
-            "location": {
-                "lat": 40.744167,
-                "lng": -73.87524400000001
+            "distance": {
+                "MTC": {
+                    "duration": {
+                        "text": "7 mins",
+                        "value": 426
+                    },
+                    "distance": {
+                        "text": "0.4 mi",
+                        "value": 574
+                    },
+                    "status": "OK"
+                },
+                "Church": {
+                    "duration": {
+                        "text": "11 mins",
+                        "value": 648
+                    },
+                    "distance": {
+                        "text": "0.5 mi",
+                        "value": 874
+                    },
+                    "status": "OK"
+                }
             },
-            "notes": ""
+            "notes": "",
+            "location": {
+                "lng": -73.87524400000001,
+                "lat": 40.744167
+            },
+            "address": "4234 Gleane St\nElmhust NY 11373"
         },
         {
-            "address": "5307 Junction Blvd, Corona NY 11368",
+            "title": "5307 Junction Blvd",
             "price": "7690000",
-            "notes": ""
+            "distance": {
+                "MTC": {
+                    "duration": {
+                        "text": "7 mins",
+                        "value": 414
+                    },
+                    "distance": {
+                        "text": "0.3 mi",
+                        "value": 534
+                    },
+                    "status": "OK"
+                },
+                "Church": {
+                    "duration": {
+                        "text": "7 mins",
+                        "value": 432
+                    },
+                    "distance": {
+                        "text": "0.3 mi",
+                        "value": 563
+                    },
+                    "status": "OK"
+                }
+            },
+            "notes": "",
+            "location": {
+                "lng": -73.86672199999998,
+                "lat": 40.7396529
+            },
+            "address": "5307 Junction Blvd, Corona NY 11368"
+        }
+    ],
+    "targets": [
+        {
+            "location": {
+                "lng": -73.87282,
+                "lat": 40.739073
+            },
+            "name": "Church"
+        },
+        {
+            "location": {
+                "lng": -73.870364,
+                "lat": 40.742344
+            },
+            "name": "MTC"
         }
     ]
 }
