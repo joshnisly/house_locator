@@ -51,16 +51,6 @@ HouseMap.prototype._startDrawHouses = function()
             }, createCallback(this, this._onGeocode, [house]));
         }
 
-        if (!house.distance)
-        {
-            this._distancer.getDistanceMatrix({
-                origins: [house.location],
-                destinations: this._targetLocations,
-                travelMode: 'WALKING',
-                unitSystem: google.maps.UnitSystem.IMPERIAL
-            }, createCallback(this, this._onDistance, [house]));
-        }
-
         this._createMarker(house);
     }
 };
@@ -97,25 +87,9 @@ HouseMap.prototype._onGeocode = function(house, results, status)
     this._displayUpdatedJson();
 };
 
-HouseMap.prototype._onDistance = function(house, results, status)
-{
-    if (status !== 'OK')
-    {
-        console.log('Error with distance', house);
-        return;
-    }
-
-    house.distance = {};
-    for (var i = 0; i < this._data.targets.length; i++)
-        house.distance[this._data.targets[i].name] = results.rows[0].elements[i];
-
-    this._createMarker(house);
-    this._displayUpdatedJson();
-};
-
 HouseMap.prototype._createMarker = function(house)
 {
-    if (!house.location || !house.distance)
+    if (!house.location)
         return;
 
     var marker = new google.maps.Marker({
@@ -156,7 +130,8 @@ HouseMap.prototype._onMarkerClick = function(house, marker)
         this._currentSelection = {
             house: house,
             marker: marker,
-            transitInfo: []
+            transitInfo: [],
+            targetInfo: []
         };
 
         this._placesService.nearbySearch({
@@ -164,6 +139,13 @@ HouseMap.prototype._onMarkerClick = function(house, marker)
             types: ['subway_station'],
             rankBy: google.maps.places.RankBy.DISTANCE
         }, createCallback(this, this._onTransitPlaces, [house]));
+
+        this._distancer.getDistanceMatrix({
+            origins: [house.location],
+            destinations: this._targetLocations,
+            travelMode: 'WALKING',
+            unitSystem: google.maps.UnitSystem.IMPERIAL
+        }, createCallback(this, this._onDistance, [house]));
     }
 };
 
@@ -178,10 +160,7 @@ HouseMap.prototype._onTransitPlaces = function(house, results, status)
     this._currentSelection.transitCount = Math.min(results.length, 3);
 
     for (var i = 0; i < this._currentSelection.transitCount; i++)
-    {
-        console.log(results[i]);
         this._loadDirections(house.location, results[i].geometry.location, results[i].name);
-    }
 };
 
 HouseMap.prototype._loadDirections = function(origin, destination, name)
@@ -213,10 +192,34 @@ HouseMap.prototype._loadDirections = function(origin, destination, name)
         travelMode: 'WALKING'
     }, createCallback(this, onRouteResults));
 };
+
+HouseMap.prototype._onDistance = function(house, results, status)
+{
+    if (status !== 'OK')
+    {
+        console.log('Error with distance', house);
+        return;
+    }
+
+    this._currentSelection.targetInfo = [];
+    for (var i = 0; i < this._data.targets.length; i++)
+    {
+        this._currentSelection.targetInfo.push({
+            name: this._data.targets[i].name,
+            distance: results.rows[0].elements[i]
+        });
+    }
+
+    this._displayInfoBoxIfReady();
+};
+
 HouseMap.prototype._displayInfoBoxIfReady = function()
 {
-    if (this._currentSelection.transitInfo.length === this._currentSelection.transitCount)
+    if (this._currentSelection.transitInfo.length === this._currentSelection.transitCount &&
+        this._currentSelection.targetInfo.length === this._targetLocations.length)
+    {
         this._displayInfoBox();
+    }
 };
 
 HouseMap.prototype._displayInfoBox = function()
@@ -225,8 +228,8 @@ HouseMap.prototype._displayInfoBox = function()
     var desc = house.address.replace(', ', '\n').replace(',', '\n');
     desc += '\n\n' + house.notes + '\n';
     desc += 'Price: $' + house.price + 'K\n';
-    for (var target in house.distance)
-        desc += target + ': ' + house.distance[target].distance.text + '\n';
+    for (var i = 0; i < this._currentSelection.targetInfo.length; i++)
+        desc += this._currentSelection.targetInfo[i].name + ': ' + this._currentSelection.targetInfo[i].distance.distance.text + '\n';
 
     desc += '\n';
     for (var i = 0; i < this._currentSelection.transitInfo.length; i++)

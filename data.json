@@ -1,30 +1,6 @@
 {
     "houses": [
         {
-            "distance": {
-                "MTC": {
-                    "duration": {
-                        "text": "8 mins", 
-                        "value": 465
-                    }, 
-                    "distance": {
-                        "text": "0.4 mi", 
-                        "value": 604
-                    }, 
-                    "status": "OK"
-                }, 
-                "Church": {
-                    "duration": {
-                        "text": "8 mins", 
-                        "value": 505
-                    }, 
-                    "distance": {
-                        "text": "0.4 mi", 
-                        "value": 663
-                    }, 
-                    "status": "OK"
-                }
-            }, 
             "title": "5314 96th St", 
             "price": "850", 
             "location": {
@@ -36,30 +12,6 @@
             "notes": "Asked for cash"
         }, 
         {
-            "distance": {
-                "MTC": {
-                    "duration": {
-                        "text": "5 mins", 
-                        "value": 291
-                    }, 
-                    "distance": {
-                        "text": "0.2 mi", 
-                        "value": 383
-                    }, 
-                    "status": "OK"
-                }, 
-                "Church": {
-                    "duration": {
-                        "text": "5 mins", 
-                        "value": 299
-                    }, 
-                    "distance": {
-                        "text": "0.2 mi", 
-                        "value": 396
-                    }, 
-                    "status": "OK"
-                }
-            }, 
             "title": "9417 52nd Ave", 
             "price": "850", 
             "location": {
@@ -71,30 +23,6 @@
             "notes": "Really small"
         }, 
         {
-            "distance": {
-                "MTC": {
-                    "duration": {
-                        "text": "7 mins", 
-                        "value": 426
-                    }, 
-                    "distance": {
-                        "text": "0.4 mi", 
-                        "value": 574
-                    }, 
-                    "status": "OK"
-                }, 
-                "Church": {
-                    "duration": {
-                        "text": "11 mins", 
-                        "value": 648
-                    }, 
-                    "distance": {
-                        "text": "0.5 mi", 
-                        "value": 874
-                    }, 
-                    "status": "OK"
-                }
-            }, 
             "title": "4234 Gleane St", 
             "price": "888", 
             "location": {
@@ -106,30 +34,6 @@
             "notes": ""
         }, 
         {
-            "distance": {
-                "MTC": {
-                    "duration": {
-                        "text": "7 mins", 
-                        "value": 414
-                    }, 
-                    "distance": {
-                        "text": "0.3 mi", 
-                        "value": 534
-                    }, 
-                    "status": "OK"
-                }, 
-                "Church": {
-                    "duration": {
-                        "text": "7 mins", 
-                        "value": 432
-                    }, 
-                    "distance": {
-                        "text": "0.3 mi", 
-                        "value": 563
-                    }, 
-                    "status": "OK"
-                }
-            }, 
             "title": "5307 Junction Blvd", 
             "price": "769",
             "location": {
@@ -141,30 +45,6 @@
             "notes": ""
         }, 
         {
-            "distance": {
-                "MTC": {
-                    "duration": {
-                        "text": "13 mins", 
-                        "value": 772
-                    }, 
-                    "distance": {
-                        "text": "0.6 mi", 
-                        "value": 1022
-                    }, 
-                    "status": "OK"
-                }, 
-                "Church": {
-                    "duration": {
-                        "text": "5 mins", 
-                        "value": 279
-                    }, 
-                    "distance": {
-                        "text": "0.2 mi", 
-                        "value": 357
-                    }, 
-                    "status": "OK"
-                }
-            }, 
             "title": "90-02 55th Ave", 
             "price": "900",
             "location": {
