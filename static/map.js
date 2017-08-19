@@ -146,8 +146,8 @@ HouseMap.prototype._onMarkerClick = function(house, marker)
 
         if (this._currentSelection.infoBox)
             this._currentSelection.infoBox.close();
-        for (var i = 0; i < this._currentSelection.transitDirections.length; i++)
-            this._currentSelection.transitDisplays[i].setMap(null);
+        for (var i = 0; i < this._currentSelection.transitInfo.length; i++)
+            this._currentSelection.transitInfo[i].display.setMap(null);
         this._currentSelection = null;
     }
 
@@ -156,8 +156,7 @@ HouseMap.prototype._onMarkerClick = function(house, marker)
         this._currentSelection = {
             house: house,
             marker: marker,
-            transitDisplays: [],
-            transitDirections: []
+            transitInfo: []
         };
 
         this._placesService.nearbySearch({
@@ -179,10 +178,13 @@ HouseMap.prototype._onTransitPlaces = function(house, results, status)
     this._currentSelection.transitCount = Math.min(results.length, 3);
 
     for (var i = 0; i < this._currentSelection.transitCount; i++)
-        this._loadDirections(house.location, results[i].geometry.location, i);
+    {
+        console.log(results[i]);
+        this._loadDirections(house.location, results[i].geometry.location, results[i].name);
+    }
 };
 
-HouseMap.prototype._loadDirections = function(origin, destination, index)
+HouseMap.prototype._loadDirections = function(origin, destination, name)
 {
     function onRouteResults(results, status)
     {
@@ -196,8 +198,11 @@ HouseMap.prototype._loadDirections = function(origin, destination, index)
         display.setMap(this._map);
         display.setDirections(results);
 
-        this._currentSelection.transitDisplays.push(display);
-        this._currentSelection.transitDirections.push(results);
+        this._currentSelection.transitInfo.push({
+            display: display,
+            directions: results,
+            name: name
+        });
 
         this._displayInfoBoxIfReady();
     }
@@ -210,7 +215,7 @@ HouseMap.prototype._loadDirections = function(origin, destination, index)
 };
 HouseMap.prototype._displayInfoBoxIfReady = function()
 {
-    if (this._currentSelection.transitDirections.length === this._currentSelection.transitCount)
+    if (this._currentSelection.transitInfo.length === this._currentSelection.transitCount)
         this._displayInfoBox();
 };
 
@@ -224,8 +229,8 @@ HouseMap.prototype._displayInfoBox = function()
         desc += target + ': ' + house.distance[target].distance.text + '\n';
 
     desc += '\n';
-    for (var i = 0; i < this._currentSelection.transitDirections.length; i++)
-        desc += this._formatDirectionsDesc(this._currentSelection.transitDirections[i]) + '\n';
+    for (var i = 0; i < this._currentSelection.transitInfo.length; i++)
+        desc += this._currentSelection.transitInfo[i].name + ': ' + this._currentSelection.transitInfo[i].directions.routes[0].legs[0].distance.text + '\n';
 
     var oElem = $(document.createDocumentFragment()).appendNewChild('DIV');
     oElem.text(desc);
@@ -236,12 +241,6 @@ HouseMap.prototype._displayInfoBox = function()
 
     this._currentSelection.infoBox = info;
     info.open(this._map, this._currentSelection.marker);
-};
-
-HouseMap.prototype._formatDirectionsDesc = function(directions)
-{
-    console.log(directions);
-    return directions.routes[0].summary + ': ' + directions.routes[0].legs[0].distance.text;
 };
 
 HouseMap.prototype._displayUpdatedJson = function()
