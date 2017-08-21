@@ -238,12 +238,31 @@ HouseMap.prototype._displayInfoBox = function()
     var oElem = $(document.createDocumentFragment()).appendNewChild('DIV');
     oElem.text(desc);
     oElem.css({'white-space': 'pre'});
+    var button = oElem.appendNewChild('BUTTON', '', 'btn btn-danger btn-tiny');
+    button.text('Delete');
+    button.bind('click', createCallback(this, this._deleteHouse, [house]));
     var info = new google.maps.InfoWindow({
         content: oElem[0]
     });
 
     this._currentSelection.infoBox = info;
     info.open(this._map, this._currentSelection.marker);
+};
+
+HouseMap.prototype._deleteHouse = function(house)
+{
+    for (var i = 0; i < this._data.houses.length; i++)
+    {
+        if (this._data.houses[i].address === house.address)
+        {
+            delete this._data.houses[i];
+            break;
+        }
+    }
+    this._displayUpdatedJson();
+    window.setTimeout(function() {
+        window.location.reload();
+    }, 100);
 };
 
 HouseMap.prototype._displayUpdatedJson = function()
@@ -263,7 +282,8 @@ HouseMap.prototype._addNewHouse = function(event)
     var house = {
         address: $('#NewAddressInput').val(),
         price: $('#NewPriceInput').val() + 0,
-        notes: $('#NewNotesInput').val()
+        notes: $('#NewNotesInput').val(),
+        forSale: $('#NewForSaleCheck')[0].checked
     };
     this._data.houses.push(house);
 
