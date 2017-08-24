@@ -1,11 +1,10 @@
 
-function HouseMap(data)
+function HouseMap(storage)
 {
-    this._data = data;
-    window.data = data;
-    this._targetLocations = [];
-    for (var i = 0; i < this._data.targets.length; i++)
-        this._targetLocations.push(this._data.targets[i].location);
+    this._storage = storage;
+    this._storage.get('data.json', createCallback(this, this._init), function(){
+        console.log(arguments);
+    });
 
     this._mapWrapper = $('#MainMap');
     this._map = new google.maps.Map(this._mapWrapper[0], {
@@ -23,6 +22,15 @@ function HouseMap(data)
 
     this._currentSelection = null;
 
+}
+
+HouseMap.prototype._init = function(data)
+{
+    this._data = window.JSON.parse(data);
+    window.data = this._data;
+    this._targetLocations = [];
+    for (var i = 0; i < this._data.targets.length; i++)
+        this._targetLocations.push(this._data.targets[i].location);
 
     // Draw houses
     this._startDrawHouses();
@@ -31,7 +39,7 @@ function HouseMap(data)
     this._drawTargets();
 
     $('#AddNewWrapper').bind('submit', createCallback(this, this._addNewHouse));
-}
+};
 
 HouseMap.prototype._startDrawHouses = function()
 {
@@ -296,8 +304,8 @@ HouseMap.prototype._addNewHouse = function(event)
 };
 
 
-function initMap() {
-
-    var data = window.JSON.parse($('#MainMap').attr('xdata'));
-    var map = new HouseMap(data);
+function initMap()
+{
+    var storage = new DataStore('jampy-public', window.location.hash.substr(1));
+    var map = new HouseMap(storage);
 }

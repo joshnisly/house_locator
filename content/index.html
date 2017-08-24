@@ -1,13 +1,13 @@
 <html>
     <head>
+         <meta charset="UTF-8">
         <title>House Tracker</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" href="{{ url_for('static', filename='globals.css') }}"/>
     </head>
     <body>
-        <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}"/>
+        <link rel="stylesheet" href="/static/index.css"/>
 
-        <div id="MainMap" xdata="{{ data}}"></div>
+        <div id="MainMap"></div>
         <div id="AddNewWrapper">
             <form id="AddNewForm">
                 <table>
@@ -33,11 +33,13 @@
         </div>
     </body>
 
-    <script src="{{ url_for('static', filename='jquery-3.2.1.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='globals.js') }}"></script>
+    <script src="/static/jquery-3.2.1.min.js"></script>
+    <script src="/static/globals.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBt4wAZo5joBOJ_3XWkhYsy9RyXRcNqXc8&libraries=places"></script>
-    <script src="{{ url_for('static', filename='maplabel.js') }}"></script>
-    <script src="{{ url_for('static', filename='map.js') }}"></script>
+    <script src="/static/maplabel.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.102.0.min.js"></script>
+    <script src="/static/storage.js"></script>
+    <script src="/static/map.js"></script>
     <script>
         initMap();
     </script>
