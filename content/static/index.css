@@ -23,7 +23,7 @@
     position: absolute;
     bottom: 10px;
     left: 10px;
-    height: 200px;
+    height: 16em;
     width: 300px;
     background-color: white;
     overflow: auto;
@@ -46,4 +46,15 @@
 {
     float: right;
     margin-top: 3px;
+}
+
+
+#EditWrapper INPUT
+{
+    margin: 0.25em;
+}
+
+#EditWrapper button
+{
+    float: right;
 }

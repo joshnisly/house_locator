@@ -31,6 +31,29 @@
                 <button id="NewButton" class="btn btn-small btn-primary">Add</button>
             </form>
         </div>
+        <div style="display: none">
+            <div id="EditWrapper">
+                <table>
+                    <tr>
+                        <td>Address</td>
+                        <td><input id="EditAddressInput" type="text"/></td>
+                    </tr>
+                    <tr>
+                        <td>Price</td>
+                        <td><input id="EditPriceInput" type="text"/></td>
+                    </tr>
+                    <tr>
+                        <td>Notes</td>
+                        <td><input id="EditNotesInput" type="text"/></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><label style="font-weight: normal"><input type="checkbox" id="EditForSaleCheck"/> For sale</label></td>
+                    </tr>
+                </table>
+                <button id="SaveButton" class="btn btn-small btn-primary">Save</button>
+            </div>
+        </div>
     </body>
 
     <script src="/static/jquery-3.2.1.min.js"></script>
@@ -40,6 +63,8 @@
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.102.0.min.js"></script>
     <script src="/static/storage.js"></script>
     <script src="/static/map.js"></script>
+    <script src="/static/featherlight.min.js"></script>
+    <link rel="stylesheet" href="/static/featherlight.min.css"/>
     <script>
         initMap();
     </script>

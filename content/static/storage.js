@@ -13,7 +13,20 @@ DataStore.prototype.get = function(name, onsuccess, onerror)
         if (err)
             onerror(err);
         else
-            onsuccess(data.Body + '');
+            onsuccess(window.JSON.parse(data.Body + ''));
+    })
+};
+DataStore.prototype.set = function(data, name, onsuccess, onerror)
+{
+    this._unauthenticatedRequest('putObject', {
+        Body: window.JSON.stringify(data),
+        Bucket: this._bucket,
+        Key: this._prefix + name
+    }, function(err) {
+        if (err)
+            onerror(err);
+        else
+            onsuccess();
     })
 };
 

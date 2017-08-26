@@ -21,12 +21,12 @@ function HouseMap(storage)
     this._directionsService = new google.maps.DirectionsService(this._map);
 
     this._currentSelection = null;
-
+    this._currentEditedHouse = null;
 }
 
 HouseMap.prototype._init = function(data)
 {
-    this._data = window.JSON.parse(data);
+    this._data = data;
     window.data = this._data;
     this._targetLocations = [];
     for (var i = 0; i < this._data.targets.length; i++)
@@ -39,6 +39,9 @@ HouseMap.prototype._init = function(data)
     this._drawTargets();
 
     $('#AddNewWrapper').bind('submit', createCallback(this, this._addNewHouse));
+    $('#SaveButton').bind('click', createCallback(this, this._saveHouseChanges))
+
+    this._editWrapper = $('#EditWrapper').detach();
 };
 
 HouseMap.prototype._startDrawHouses = function()
@@ -92,7 +95,7 @@ HouseMap.prototype._onGeocode = function(house, results, status)
 
     house.location = results[0].geometry.location;
     this._createMarker(house);
-    this._displayUpdatedJson();
+    this._displayUpdatedJson(false);
 };
 
 HouseMap.prototype._createMarker = function(house)
@@ -246,9 +249,16 @@ HouseMap.prototype._displayInfoBox = function()
     var oElem = $(document.createDocumentFragment()).appendNewChild('DIV');
     oElem.text(desc);
     oElem.css({'white-space': 'pre'});
-    var button = oElem.appendNewChild('BUTTON', '', 'btn btn-danger btn-tiny');
-    button.text('Delete');
-    button.bind('click', createCallback(this, this._deleteHouse, [house]));
+
+    var deleteButton = oElem.appendNewChild('BUTTON', '', 'btn btn-danger btn-tiny');
+    deleteButton.text('Delete');
+    deleteButton.bind('click', createCallback(this, this._deleteHouse, [house]));
+    deleteButton.css('float', 'right');
+
+    var editButton = oElem.appendNewChild('BUTTON', '', 'btn btn-default btn-tiny');
+    editButton.text('Edit');
+    editButton.bind('click', createCallback(this, this._editHouse, [house]));
+
     var info = new google.maps.InfoWindow({
         content: oElem[0]
     });
@@ -267,29 +277,57 @@ HouseMap.prototype._deleteHouse = function(house)
             break;
         }
     }
-    this._displayUpdatedJson();
-    window.setTimeout(function() {
-        window.location.reload();
-    }, 100);
+    this._displayUpdatedJson(true);
 };
 
-HouseMap.prototype._displayUpdatedJson = function()
+HouseMap.prototype._editHouse = function(house)
 {
-    var json = window.JSON.stringify(this._data, null, '    ');
-    $.ajax({
-        'url': '/update/',
-        'data': json,
-        'dataType': 'json',
-        'method': 'POST',
-        'contentType': 'application/json'
-    })
+    this._currentEditedHouse = house;
+
+    $.featherlight(this._editWrapper);
+
+    $('#EditAddressInput').val(house.address.replace('\n', ', '));
+    $('#EditPriceInput').val(house.price);
+    $('#EditNotesInput').val(house.notes);
+    $('#EditForSaleCheck')[0].checked = house.forSale;
+};
+
+HouseMap.prototype._saveHouseChanges = function()
+{
+    if (!this._currentEditedHouse)
+        return;
+
+    for (var i = 0; i < this._data.houses.length; i++)
+    {
+        if (this._data.houses[i].address === this._currentEditedHouse.address)
+        {
+            this._data.houses[i].address = $('#EditAddressInput').val();
+            this._data.houses[i].price = parseInt($('#EditPriceInput').val(), 10);
+            this._data.houses[i].notes = $('#EditNotesInput').val();
+            this._data.houses[i].forSale = $('#EditForSaleCheck')[0].checked;
+
+            this._displayUpdatedJson(true);
+        }
+    }
+};
+
+HouseMap.prototype._displayUpdatedJson = function(shouldReload)
+{
+    this._storage.set(this._data, 'data.json', function()
+    {
+        if (shouldReload)
+            window.location.reload();
+    }, function()
+    {
+        console.log(arguments);
+    });
 };
 
 HouseMap.prototype._addNewHouse = function(event)
 {
     var house = {
         address: $('#NewAddressInput').val(),
-        price: $('#NewPriceInput').val() + 0,
+        price: parseInt($('#NewPriceInput').val(), 10),
         notes: $('#NewNotesInput').val(),
         forSale: $('#NewForSaleCheck')[0].checked
     };
