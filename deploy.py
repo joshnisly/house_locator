@@ -24,4 +24,4 @@ def push_files(config_file, src_dir_path, bucket_name):
 
 if __name__ == '__main__':
     our_dir = os.path.dirname(os.path.abspath(__file__))
-    push_files(os.path.join(our_dir, 'deploy.ini'), os.path.join(our_dir, 'content'), 'house-finder')
+    push_files(os.path.join(our_dir, 'deploy.ini'), os.path.join(our_dir, 'content'), 'houses.jampy.org')
