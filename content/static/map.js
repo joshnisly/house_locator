@@ -26,10 +26,16 @@ function HouseMap(storage)
 
 HouseMap.prototype._init = function(data)
 {
+    for (var i = data.houses.length - 1; i >= 0; i--)
+    {
+        if (!data.houses[i])
+            data.houses.splice(i, 1);
+    }
+
     this._data = data;
     window.data = this._data;
     this._targetLocations = [];
-    for (var i = 0; i < this._data.targets.length; i++)
+    for (i = 0; i < this._data.targets.length; i++)
         this._targetLocations.push(this._data.targets[i].location);
 
     // Draw houses
