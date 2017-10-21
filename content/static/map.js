@@ -239,6 +239,17 @@ HouseMap.prototype._displayInfoBoxIfReady = function()
     }
 };
 
+function round(number, decimalPlaces)
+{
+    var factor = Math.pow(10, decimalPlaces);
+    return Math.round(number * factor) / factor;
+}
+
+function getDistDesc(dist)
+{
+    return round(dist * 0.000621371, 3) + ' mi';
+}
+
 HouseMap.prototype._displayInfoBox = function()
 {
     var house = this._currentSelection.house;
@@ -246,11 +257,17 @@ HouseMap.prototype._displayInfoBox = function()
     desc += '\n\n' + house.notes + '\n';
     desc += 'Price: $' + house.price + 'K\n';
     for (var i = 0; i < this._currentSelection.targetInfo.length; i++)
-        desc += this._currentSelection.targetInfo[i].name + ': ' + this._currentSelection.targetInfo[i].distance.distance.text + '\n';
+    {
+        desc += this._currentSelection.targetInfo[i].name + ': ';
+        desc += getDistDesc(this._currentSelection.targetInfo[i].distance.distance.value) + '\n';
+    }
 
     desc += '\n';
-    for (var i = 0; i < this._currentSelection.transitInfo.length; i++)
-        desc += this._currentSelection.transitInfo[i].name + ': ' + this._currentSelection.transitInfo[i].directions.routes[0].legs[0].distance.text + '\n';
+    for (i = 0; i < this._currentSelection.transitInfo.length; i++)
+    {
+        desc += this._currentSelection.transitInfo[i].name + ': ';
+        desc += getDistDesc(this._currentSelection.transitInfo[i].directions.routes[0].legs[0].distance.value) + '\n';
+    }
 
     var oElem = $(document.createDocumentFragment()).appendNewChild('DIV');
     oElem.text(desc);
