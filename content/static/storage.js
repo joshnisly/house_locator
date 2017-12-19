@@ -10,10 +10,17 @@ DataStore.prototype.get = function(name, onsuccess, onerror)
         Bucket: this._bucket,
         Key: this._prefix + name
     }, function(err, data) {
-        if (err)
-            onerror(err);
-        else
-            onsuccess(window.JSON.parse(data.Body + ''));
+        try
+        {
+            if (err)
+                onerror(err);
+            else
+                onsuccess(window.JSON.parse(data.Body + ''));
+        }
+        catch(e)
+        {
+            console.log(e);
+        }
     })
 };
 DataStore.prototype.set = function(data, name, onsuccess, onerror)

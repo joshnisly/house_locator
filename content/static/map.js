@@ -1,6 +1,20 @@
 
 function HouseMap(storage)
 {
+    if (!window.location.hash)
+    {
+        window.location.hash = window.prompt('Name?');
+
+        var newStorage = new DataStore('jampy-public', window.location.hash.substr(1));
+        var newData = window.JSON.parse(window.prompt('Data?'));
+        if (newData)
+        {
+            newStorage.set(newData, 'data.json', function () {
+                window.location.reload();
+            });
+        }
+    }
+
     this._storage = storage;
     this._storage.get('data.json', createCallback(this, this._init), function(){
         console.log(arguments);
@@ -74,9 +88,9 @@ HouseMap.prototype._startDrawHouses = function()
 
 HouseMap.prototype._drawTargets = function()
 {
-    for (i = 0; i < this._targetLocations.length; i++)
+    for (var i = 0; i < this._targetLocations.length; i++)
     {
-        new google.maps.Marker({
+        var targetMarker = new google.maps.Marker({
             position: this._targetLocations[i],
             icon: {
                 path: google.maps.SymbolPath.CIRCLE,
@@ -88,6 +102,7 @@ HouseMap.prototype._drawTargets = function()
             draggable: false,
             map: this._map
         });
+        targetMarker.addListener('click', createCallback(this, this._onMarkerClick, [null, targetMarker]))
     }
 };
 
@@ -127,7 +142,7 @@ HouseMap.prototype._createMarker = function(house)
     });
 };
 
-HouseMap.prototype._onMarkerClick = function(house, marker)
+HouseMap.prototype._onMarkerClick = function(house, marker, event)
 {
     var shouldShow = true;
     if (this._currentSelection)
@@ -144,6 +159,7 @@ HouseMap.prototype._onMarkerClick = function(house, marker)
 
     if (shouldShow)
     {
+        var location = house ? house.location : event.latLng;
         this._currentSelection = {
             house: house,
             marker: marker,
@@ -152,32 +168,35 @@ HouseMap.prototype._onMarkerClick = function(house, marker)
         };
 
         this._placesService.nearbySearch({
-            location: house.location,
+            location: location,
             types: ['subway_station'],
             rankBy: google.maps.places.RankBy.DISTANCE
-        }, createCallback(this, this._onTransitPlaces, [house]));
+        }, createCallback(this, this._onTransitPlaces, [location]));
 
-        this._distancer.getDistanceMatrix({
-            origins: [house.location],
-            destinations: this._targetLocations,
-            travelMode: 'WALKING',
-            unitSystem: google.maps.UnitSystem.IMPERIAL
-        }, createCallback(this, this._onDistance, [house]));
+        if (house)
+        {
+            this._distancer.getDistanceMatrix({
+                origins: [location],
+                destinations: this._targetLocations,
+                travelMode: 'WALKING',
+                unitSystem: google.maps.UnitSystem.IMPERIAL
+            }, createCallback(this, this._onDistance, [house]));
+        }
     }
 };
 
-HouseMap.prototype._onTransitPlaces = function(house, results, status)
+HouseMap.prototype._onTransitPlaces = function(location, results, status)
 {
     if (status !== 'OK')
     {
-        console.log('Error with places API', house);
+        console.log('Error with places API', location);
         return;
     }
 
     this._currentSelection.transitCount = Math.min(results.length, 3);
 
     for (var i = 0; i < this._currentSelection.transitCount; i++)
-        this._loadDirections(house.location, results[i].geometry.location, results[i].name);
+        this._loadDirections(location, results[i].geometry.location, results[i].name);
 };
 
 HouseMap.prototype._loadDirections = function(origin, destination, name)
@@ -232,11 +251,16 @@ HouseMap.prototype._onDistance = function(house, results, status)
 
 HouseMap.prototype._displayInfoBoxIfReady = function()
 {
-    if (this._currentSelection.transitInfo.length === this._currentSelection.transitCount &&
-        this._currentSelection.targetInfo.length === this._targetLocations.length)
+    if (this._currentSelection.transitInfo.length !== this._currentSelection.transitCount)
+        return;
+
+    if (this._currentSelection.house &&
+        this._currentSelection.targetInfo.length !== this._targetLocations.length)
     {
-        this._displayInfoBox();
+        return;
     }
+
+    this._displayInfoBox();
 };
 
 function round(number, decimalPlaces)
@@ -253,9 +277,13 @@ function getDistDesc(dist)
 HouseMap.prototype._displayInfoBox = function()
 {
     var house = this._currentSelection.house;
-    var desc = house.address.replace(', ', '\n').replace(',', '\n');
-    desc += '\n\n' + house.notes + '\n';
-    desc += 'Price: $' + house.price + 'K\n';
+    var desc = '';
+    if (house)
+    {
+        desc += house.address.replace(', ', '\n').replace(',', '\n');
+        desc += '\n\n' + house.notes + '\n';
+        desc += 'Price: $' + house.price + 'K\n';
+    }
     for (var i = 0; i < this._currentSelection.targetInfo.length; i++)
     {
         desc += this._currentSelection.targetInfo[i].name + ': ';
@@ -273,14 +301,17 @@ HouseMap.prototype._displayInfoBox = function()
     oElem.text(desc);
     oElem.css({'white-space': 'pre'});
 
-    var deleteButton = oElem.appendNewChild('BUTTON', '', 'btn btn-danger btn-tiny');
-    deleteButton.text('Delete');
-    deleteButton.bind('click', createCallback(this, this._deleteHouse, [house]));
-    deleteButton.css('float', 'right');
+    if (house)
+    {
+        var deleteButton = oElem.appendNewChild('BUTTON', '', 'btn btn-danger btn-tiny');
+        deleteButton.text('Delete');
+        deleteButton.bind('click', createCallback(this, this._deleteHouse, [house]));
+        deleteButton.css('float', 'right');
 
-    var editButton = oElem.appendNewChild('BUTTON', '', 'btn btn-default btn-tiny');
-    editButton.text('Edit');
-    editButton.bind('click', createCallback(this, this._editHouse, [house]));
+        var editButton = oElem.appendNewChild('BUTTON', '', 'btn btn-default btn-tiny');
+        editButton.text('Edit');
+        editButton.bind('click', createCallback(this, this._editHouse, [house]));
+    }
 
     var info = new google.maps.InfoWindow({
         content: oElem[0]
