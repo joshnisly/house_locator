@@ -13,6 +13,8 @@ function HouseMap(storage)
                 window.location.reload();
             });
         }
+        else
+            window.location.reload();
     }
 
     this._storage = storage;
