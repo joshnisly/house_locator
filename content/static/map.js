@@ -120,7 +120,10 @@ HouseMap.prototype._onGeocode = function(house, results, status)
         return;
     }
 
-    house.location = results[0].geometry.location;
+    house.location = {
+        'lat': results[0].geometry.location.lat(),
+        'lng': results[0].geometry.location.lng()
+    };
     this._createMarker(house);
     this._displayUpdatedJson(false);
 };
@@ -303,7 +306,7 @@ HouseMap.prototype._displayInfoBox = function()
     {
         desc += house.address.replace(', ', '\n').replace(',', '\n');
         desc += '\n\n' + house.notes + '\n';
-        desc += 'Price: $' + house.price + 'K\n';
+        desc += 'Price: $' + house.price + '\n';
     }
     for (var i = 0; i < this._currentSelection.targetInfo.length; i++)
     {
@@ -377,7 +380,7 @@ HouseMap.prototype._saveHouseChanges = function()
         if (this._data.houses[i].address === this._currentEditedHouse.address)
         {
             this._data.houses[i].address = $('#EditAddressInput').val();
-            this._data.houses[i].price = parseInt($('#EditPriceInput').val(), 10);
+            this._data.houses[i].price = $('#EditPriceInput').val();
             this._data.houses[i].notes = $('#EditNotesInput').val();
             this._data.houses[i].forSale = $('#EditForSaleCheck')[0].checked;
 
@@ -402,7 +405,7 @@ HouseMap.prototype._addNewHouse = function(event)
 {
     var house = {
         address: $('#NewAddressInput').val(),
-        price: parseInt($('#NewPriceInput').val(), 10),
+        price: $('#NewPriceInput').val(),
         notes: $('#NewNotesInput').val(),
         forSale: $('#NewForSaleCheck')[0].checked
     };
