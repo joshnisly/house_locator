@@ -38,6 +38,8 @@ function HouseMap(storage)
 
     this._currentSelection = null;
     this._currentEditedHouse = null;
+
+    this._tempMarker = null;
 }
 
 HouseMap.prototype._init = function(data)
@@ -61,9 +63,11 @@ HouseMap.prototype._init = function(data)
     this._drawTargets();
 
     $('#AddNewWrapper').bind('submit', createCallback(this, this._addNewHouse));
-    $('#SaveButton').bind('click', createCallback(this, this._saveHouseChanges))
+    $('#SaveButton').bind('click', createCallback(this, this._saveHouseChanges));
 
     this._editWrapper = $('#EditWrapper').detach();
+
+    this._map.addListener('click', createCallback(this, this._onMapClick))
 };
 
 HouseMap.prototype._startDrawHouses = function()
@@ -104,7 +108,7 @@ HouseMap.prototype._drawTargets = function()
             draggable: false,
             map: this._map
         });
-        targetMarker.addListener('click', createCallback(this, this._onMarkerClick, [null, targetMarker]))
+        targetMarker.addListener('click', createCallback(this, this._onMarkerClick, [null, targetMarker, false]));
     }
 };
 
@@ -132,7 +136,7 @@ HouseMap.prototype._createMarker = function(house)
         title: house.title,
         icon: house.forSale ? '/static/marker_green.png' : null
     });
-    marker.addListener('click', createCallback(this, this._onMarkerClick, [house, marker]));
+    marker.addListener('click', createCallback(this, this._onMarkerClick, [house, marker, true]));
 
     // Show price
     new MapLabel({
@@ -144,7 +148,7 @@ HouseMap.prototype._createMarker = function(house)
     });
 };
 
-HouseMap.prototype._onMarkerClick = function(house, marker, event)
+HouseMap.prototype._onMarkerClick = function(house, marker, showTargets, event)
 {
     var shouldShow = true;
     if (this._currentSelection)
@@ -175,7 +179,7 @@ HouseMap.prototype._onMarkerClick = function(house, marker, event)
             rankBy: google.maps.places.RankBy.DISTANCE
         }, createCallback(this, this._onTransitPlaces, [location]));
 
-        if (house)
+        if (showTargets)
         {
             this._distancer.getDistanceMatrix({
                 origins: [location],
@@ -185,6 +189,21 @@ HouseMap.prototype._onMarkerClick = function(house, marker, event)
             }, createCallback(this, this._onDistance, [house]));
         }
     }
+};
+
+HouseMap.prototype._onMapClick = function(event)
+{
+    if (this._tempMarker)
+        this._tempMarker.setMap(null);
+
+    this._tempMarker = new google.maps.Marker({
+        position: event.latLng,
+        map: this._map,
+        title: 'New location',
+        icon: null
+    });
+
+    this._onMarkerClick(null, this._tempMarker, true, event);
 };
 
 HouseMap.prototype._onTransitPlaces = function(location, results, status)
