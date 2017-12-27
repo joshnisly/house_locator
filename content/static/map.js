@@ -5,16 +5,22 @@ function HouseMap(storage)
     {
         window.location.hash = window.prompt('Name?');
 
+        // See if this name already has data. If not, prompt to create new data.
         var newStorage = new DataStore('jampy-public', window.location.hash.substr(1));
-        var newData = window.JSON.parse(window.prompt('Data?'));
-        if (newData)
+        newStorage.get('data.json', function()
         {
+            console.log('Success!');
+            window.location.reload();
+        }, function(){
+            console.log('Failure!');
+            // No data. Try to create new.
+            var newData = window.JSON.parse(window.prompt('Initial data?'));
             newStorage.set(newData, 'data.json', function () {
                 window.location.reload();
             });
-        }
-        else
-            window.location.reload();
+        });
+
+        return;
     }
 
     this._storage = storage;
@@ -68,6 +74,8 @@ HouseMap.prototype._init = function(data)
     this._editWrapper = $('#EditWrapper').detach();
 
     this._map.addListener('click', createCallback(this, this._onMapClick))
+
+    $(document).bind('keypress', createCallback(this, this._onKeyPress));
 };
 
 HouseMap.prototype._startDrawHouses = function()
@@ -209,6 +217,21 @@ HouseMap.prototype._onMapClick = function(event)
     this._onMarkerClick(null, this._tempMarker, true, event);
 };
 
+HouseMap.prototype._onKeyPress = function(event)
+{
+    if (event.keyCode === 27 && this._currentSelection)
+    {
+        if (this._tempMarker)
+            this._tempMarker.setMap(null);
+
+        if (this._currentSelection.infoBox)
+            this._currentSelection.infoBox.close();
+        for (var i = 0; i < this._currentSelection.transitInfo.length; i++)
+            this._currentSelection.transitInfo[i].display.setMap(null);
+        this._currentSelection = null;
+    }
+};
+
 HouseMap.prototype._onTransitPlaces = function(location, results, status)
 {
     if (status !== 'OK')
@@ -228,6 +251,9 @@ HouseMap.prototype._loadDirections = function(origin, destination, name)
     function onRouteResults(results, status)
     {
         if (status !== 'OK')
+            return;
+
+        if (!this._currentSelection)
             return;
 
         var display = new google.maps.DirectionsRenderer({
